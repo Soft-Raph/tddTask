@@ -3,10 +3,20 @@
 namespace Tests\Unit;
 
 use App\Services\CheckoutService;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
+use Tests\TestCase;
 
 class CheckoutTest extends TestCase
 {
+    use RefreshDatabase;
+
+    public function setup():void
+    {
+        parent::setUp();
+        Artisan::call('db:seed');
+    }
+
     /**
      * A basic unit test example.
      *
@@ -25,6 +35,6 @@ class CheckoutTest extends TestCase
         $co ->scan('FR1');
         $co ->scan('FR1');
         $co ->scan('CF1');
-        $this->assertEquals(0, $co->total);
+        $this->assertEquals(22.45, $co->total);
     }
 }
